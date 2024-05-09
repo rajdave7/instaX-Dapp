@@ -127,7 +127,7 @@ const UserProfile = () => {
         <div className="UserProfile">
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-6">
                         <UserProfileCard
                             user={user}
                             followers={followers}
@@ -138,17 +138,18 @@ const UserProfile = () => {
                             handleToggleFollowing={handleToggleFollowing}
                             handleUnfollow={handleUnfollow}
                       />
+                      <div className="card mt-3 card-dark">
+                        <div className="card-body card-dark">
+                          <h5 className="card-title">User Analytics</h5>
+                          <ul className="list-group list-group-flush card-dark">
+                            <li className="list-group-item card-dark">Total Posts: {parseInt(analytics.totalPosts)}</li>
+                            <li className="list-group-item card-dark">Total Likes: {parseInt(analytics.totalLikes)}</li>
+                            <li className="list-group-item card-dark">Total Comments: {parseInt(analytics.totalComments)}</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
-                    <div className="card mt-4">
-                    <div className="card-body">
-                      <h5 className="card-title">User Analytics</h5>
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item">Total Posts: {analytics.totalPosts}</li>
-                        <li className="list-group-item">Total Likes: {analytics.totalLikes}</li>
-                        <li className="list-group-item">Total Comments: {analytics.totalComments}</li>
-                      </ul>
-                    </div>
-                  </div>
+                    
                     <div className="col-md-3">
                       <ConnectButton />
                         <Navbar />
