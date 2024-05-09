@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <div className="Navbar">
-      <div className="card">
+      <div className="card card-dark">
         <img
           src="https://www.undp.org/sites/g/files/zskgke326/files/2023-08/undp-rbec-socialmedia-social-illustration-omer-sayed-2023-edited.jpg"
           className="banner-img"

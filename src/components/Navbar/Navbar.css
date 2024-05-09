@@ -1,3 +1,7 @@
+.card-dark {
+  background-color: #333; /* Choose your desired dark background color */
+  color: #fff;
+}
 .username {
     font-size: 1.5rem;
   }

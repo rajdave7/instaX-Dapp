@@ -1,3 +1,7 @@
+.card-dark {
+    background-color: #333; /* Choose your desired dark background color */
+    color: #fff;
+  }
 .post-avatar {
     width: 2.5rem;
     height: 2.5rem;

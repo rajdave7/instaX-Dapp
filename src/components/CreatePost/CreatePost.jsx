@@ -121,7 +121,7 @@ const CreatePost = () => {
   // Inside the CreatePost component, modify the return statement
 return (
   <div className="CreatePost">
-    <div className="card">
+    <div className="card card-dark">
       <div className="card-body">
         <div className="profile-section">
           <img
