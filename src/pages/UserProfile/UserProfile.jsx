@@ -125,10 +125,7 @@ const UserProfile = () => {
         <div className="UserProfile">
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-md-3">
-                        <Navbar />
-                    </div>
-                    <div className="col-md-6">
+                    <div className="col-md-8">
                         <UserProfileCard
                             user={user}
                             followers={followers}
@@ -142,6 +139,7 @@ const UserProfile = () => {
                     </div>
                     <div className="col-md-3">
                       <ConnectButton />
+                        <Navbar />
                     </div>
                 </div>
               </div>

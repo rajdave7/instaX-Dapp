@@ -61,10 +61,7 @@ const FollowList = () => {
     <div className="FollowList">
       <div className="container mt-4">
         <div className="row">
-          <div className="col-md-3">
-            <Navbar />
-          </div>
-          <div className="col-md-6">
+          <div className="col-md-8">
             <div className="search-bar">
             <input
               type="text"
@@ -106,6 +103,7 @@ const FollowList = () => {
           </div>
           <div className="col-md-3">
             <ConnectButton />
+            <Navbar />
           </div>
         </div>
       </div>
