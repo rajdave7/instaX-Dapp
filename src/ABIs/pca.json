@@ -85,7 +85,7 @@
 				"type": "string[]"
 			}
 		],
-		"name": "createPoll",
+		"name": "FollowList",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

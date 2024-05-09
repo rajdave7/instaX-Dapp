@@ -8,7 +8,8 @@ import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import { Link } from "react-router-dom";
-import UserProfileCard from "../../components/UserProfileCard"; // Import the UserProfileCard component
+import UserProfileCard from "../../components/UserProfileCard";
+import ConnectButton from "../../components/ConnectButton";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -96,7 +97,10 @@ const UserProfile = () => {
         account: address,
       });
 
-      getFollowing();
+      setFollowers((prevFollowers) =>
+      prevFollowers.filter((follower) => follower.user !== user)
+      );
+    getFollowing();
     } catch (error) {
       console.log("Error while unfollowing user", error);
     }
@@ -149,7 +153,28 @@ const UserProfile = () => {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
+=======
+            <div className="col-md-6">
+              <UserProfileCard
+                user={user}
+                followers={followers}
+                following={following}
+                showFollowers={showFollowers}
+                showFollowing={showFollowing}
+                handleToggleFollowers={handleToggleFollowers}
+                handleToggleFollowing={handleToggleFollowing}
+                handleUnfollow={handleUnfollow}
+              />
+            </div>
+            <div className="col-md-3">
+              <ConnectButton />
+            </div>
+          </div>
+      </div>
+      </div>
+>>>>>>> e7a7b1879408af8011c8cd6343c1315154ee74c8
     </>
 );
 };
