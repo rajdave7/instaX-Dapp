@@ -115,6 +115,7 @@ const UserProfile = () => {
             functionName: "getPostAnalytics",
             args: [user], 
         });
+        console.log("this is the variable value: ", analyticsData);
 
         setAnalytics(analyticsData);
         console.log(analyticsData);
@@ -138,7 +139,7 @@ const UserProfile = () => {
                             handleToggleFollowing={handleToggleFollowing}
                             handleUnfollow={handleUnfollow}
                       />
-                      <div className="card mt-3 card-dark">
+                      {/* <div className="card mt-3 card-dark">
                         <div className="card-body card-dark">
                           <h5 className="card-title">User Analytics</h5>
                           <ul className="list-group list-group-flush card-dark">
@@ -147,7 +148,7 @@ const UserProfile = () => {
                             <li className="list-group-item card-dark">Total Comments: {parseInt(analytics.totalComments)}</li>
                           </ul>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     
                     <div className="col-md-3">
