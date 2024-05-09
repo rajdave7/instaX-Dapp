@@ -149,7 +149,7 @@ const Post = (props) => {
               className="d-flex like-comment align-items-center mx-2 btn btn-link"
               onClick={toggleComments}
             >
-              <span className="material-symbols-outlined">thumb_up</span>
+              <span className="material-symbols-outlined">chat</span>
               <span className="px-1 like-comment-text">
                 {post && parseInt(post.comments)} Comments
               </span>
