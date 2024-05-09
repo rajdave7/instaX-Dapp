@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Post from "../../components/Post/Post";
 import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
-//import FollowingList from "../../components/FollowList/FollowList";
 import { readContract } from "@wagmi/core";
 import ConnectButton from "../../components/ConnectButton";
 import { config } from "../../../config";
@@ -14,6 +13,7 @@ const MyPosts = () => {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
   const { address } = useSocialMedia();
+  const [sortBy, setSortBy] = useState("desc"); // Default sorting by descending order
 
   if (!localStorage.getItem("isRegistered")) {
     return <Welcome />;
@@ -21,7 +21,7 @@ const MyPosts = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [sortBy]);
 
   const getPosts = async () => {
     try {
@@ -32,7 +32,13 @@ const MyPosts = () => {
         args: [address],
       });
 
-      setPosts(data);
+      let sortedPosts;
+      if (sortBy === "asc") {
+        sortedPosts = data.sort((a, b) => compareBigInt(a.timestamp, b.timestamp));
+      } else {
+        sortedPosts = data.sort((a, b) => compareBigInt(b.timestamp, a.timestamp));
+      }
+      setPosts(sortedPosts);
 
       try {
         const user = await readContract(config, {
@@ -51,6 +57,18 @@ const MyPosts = () => {
     }
   };
 
+  const compareBigInt = (a, b) => {
+    const bigIntA = BigInt(a);
+    const bigIntB = BigInt(b);
+    if (bigIntA < bigIntB) return -1;
+    if (bigIntA > bigIntB) return 1;
+    return 0;
+  };
+
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
+
   return (
     <div className="MyPosts">
       <div className="container mt-4">
@@ -60,6 +78,13 @@ const MyPosts = () => {
           </div>
           <div className="col-md-6">
             <CreatePost />
+            <div>
+              <label htmlFor="sort">Sort by:</label>
+              <select id="sort" value={sortBy} onChange={handleSortChange}>
+                <option value="desc">Newest First</option>
+                <option value="asc">Oldest First</option>
+              </select>
+            </div>
             {posts.map((post, index) => (
               <Post key={index} post={post} user={user} />
             ))}
