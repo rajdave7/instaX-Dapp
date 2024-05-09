@@ -33,12 +33,13 @@ const Navbar = () => {
 
   return (
     <div className="Navbar">
-      <div className="card">
-        <img
-          src="https://www.undp.org/sites/g/files/zskgke326/files/2023-08/undp-rbec-socialmedia-social-illustration-omer-sayed-2023-edited.jpg"
-          className="banner-img"
-          alt="web3-social media banner"
-        />
+      <div className="card card-dark">
+      <img
+        src="../images/insta.png"  // Replace "your-image-file.jpg" with the actual file name
+        className="banner-img"
+        alt="web3-social media banner"
+      />
+      <h2 className="banner-text" style={{ textAlign: 'center' }}>InstaX Dapp</h2>
         <div className="card-body">
           <div className="text-center">
             <img

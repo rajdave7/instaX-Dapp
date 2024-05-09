@@ -74,25 +74,28 @@ const MyPosts = () => {
     <div className="MyPosts">
       <div className="container mt-4">
         <div className="row">
-          <div className="col-md-3">
-            <Navbar />
-          </div>
-          <div className="col-md-6">
-            <CreatePost />
-            <div>
-              <label htmlFor="sort">Sort by:</label>
-              <select id="sort" value={sortBy} onChange={handleSortChange}>
-                <option value="desc">Newest First</option>
-                <option value="asc">Oldest First</option>
-              </select>
+            <div className="col-md-7" >
+            <div style={{ paddingRight: '20px' }}>
+                <div className="form-group">
+                  <label htmlFor="sort" className="text-light card-dark" style={{ padding: '5px 10px', borderRadius: '5px' }}>Sort by: </label>
+                    <select
+                      id="sort"
+                      value={sortBy}
+                      onChange={handleSortChange}
+                      className="custom-select card-dark" style={{ marginLeft: '10px' , padding: '5px 10px', borderRadius: '5px' }}
+                    >
+                      <option value="desc">Newest First</option>
+                      <option value="asc">Oldest First</option>
+                    </select>
+                </div>
+              {posts.map((post, index) => (
+                <Post key={index} post={post} user={user} />
+              ))}
             </div>
-            {posts.map((post, index) => (
-              <Post key={index} post={post} user={user} />
-            ))}
-          </div>
+            </div>
           <div className="col-md-3">
             <ConnectButton />
-            {/* <FollowingList /> */}
+            <Navbar />
           </div>
         </div>
       </div>

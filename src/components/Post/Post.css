@@ -1,3 +1,7 @@
+.card-dark {
+  background-color: #333; /* Choose your desired dark background color */
+  color: #fff;
+}
 .Post {
     margin: 20px 0;
   }
@@ -44,11 +48,11 @@
     width: 100%;
     padding: 0.2rem;
     border-radius: 0.3rem;
-    background-color: #fff;
+    /* background-color: #fff; */
   }
   
   .text-box {
-    background-color: #fff;
+    /* background-color: #fff; */
     flex-grow: 1;
     border: 0;
     height: 3rem;
