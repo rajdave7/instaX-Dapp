@@ -66,14 +66,17 @@ const FollowList = () => {
           </div>
           <div className="col-md-6">
             <div className="search-bar">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Search for friends..."
-                className="form-control mb-3"/>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search for friends..." 
+              className="form-control mb-3 card-dark"
+              style={{ "::placeholder": { color: "#fff" } }}
+            />
+
             </div>
-            <div className="card">
+            <div className="card card-dark">
               <div className="card-body">
                 <h2 className="card-title fs-5 py-2">Find Friends</h2>
                 {filteredUsers.length > 0 ? (
@@ -96,7 +99,7 @@ const FollowList = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-muted">Friend not found</p>
+                  <p style={{ color: "#fff" }}>Friend not found</p>
                 )}
               </div>
             </div>

@@ -8,7 +8,8 @@ import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import { Link } from "react-router-dom";
-import UserProfileCard from "../../components/UserProfileCard"; // Import the UserProfileCard component
+import UserProfileCard from "../../components/UserProfileCard";
+import ConnectButton from "../../components/ConnectButton";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -96,7 +97,10 @@ const UserProfile = () => {
         account: address,
       });
 
-      getFollowing();
+      setFollowers((prevFollowers) =>
+      prevFollowers.filter((follower) => follower.user !== user)
+      );
+    getFollowing();
     } catch (error) {
       console.log("Error while unfollowing user", error);
     }
@@ -134,21 +138,13 @@ const UserProfile = () => {
                             handleToggleFollowers={handleToggleFollowers}
                             handleToggleFollowing={handleToggleFollowing}
                             handleUnfollow={handleUnfollow}
-             // Pass analytics to UserProfileCard
-                        />
-                        {/* {analytics && (
-                            <div className="card mt-4">
-                                <div className="card-body">
-                                    <h5 className="card-title">Analytics</h5>
-                                    <p>Total Posts: {analytics.totalPosts}</p>
-                                    <p>Total Likes: {analytics.totalLikes}</p>
-                                    <p>Total Comments: {analytics.totalComments}</p>
-                                </div>
-                            </div>
-                        )} */}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <ConnectButton />
                     </div>
                 </div>
-            </div>
+              </div>
         </div>
     </>
 );

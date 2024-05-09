@@ -94,7 +94,7 @@ const Post = (props) => {
 
   return (
     <div className="Post my-3">
-      <div className="card">
+      <div className="card card-dark">
         <div className="card-body">
           <div className="d-flex align-items-center mt-1 mb-3">
             <img
