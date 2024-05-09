@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import { readContract, writeContract } from "@wagmi/core";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import { Link } from "react-router-dom";
 import UserProfileCard from "../../components/UserProfileCard"; // Import the UserProfileCard component
@@ -33,8 +34,8 @@ const UserProfile = () => {
   const getUser = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getUser",
         args: [address],
       });
@@ -48,8 +49,8 @@ const UserProfile = () => {
   const getFollowers = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getFollowers",
         args: [address],
       });
@@ -63,8 +64,8 @@ const UserProfile = () => {
   const getFollowing = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getFollowing",
         args: [address],
       });
@@ -89,8 +90,8 @@ const UserProfile = () => {
   const handleUnfollow = async (user) => {
     try {
       await writeContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "unfollowUser",
         args: [user],
         account: address,
@@ -104,8 +105,8 @@ const UserProfile = () => {
 //   const getAnalytics = async () => {
 //     try {
 //         const analyticsData = await readContract(config, {
-//             abi: SocialMediaABI,
-//             address: SocialMediaAddress,
+//             abi:InstaXContractABI,
+//             address:InstaXAddress,
 //             functionName: "getPostAnalytics",
 //             args: [user], 
 //         });

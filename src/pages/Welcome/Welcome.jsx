@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import { readContract, writeContract } from "@wagmi/core";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { config } from "../../../config";
 import smaAbi from "../../ABIs/sma.json";
 import pcaAbi from "../../ABIs/pca.json";
@@ -25,24 +26,26 @@ const Welcome = () => {
   const checkRegistration = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "isUser",
         args: [address],
       });
+      console.log("Data from readContract:", data);
+
       setIsRegistered(data);
 
       if (data) {
         try {
           const data = await readContract(config, {
-            abi: SocialMediaABI,
-            address: SocialMediaAddress,
+            abi:InstaXContractABI,
+            address:InstaXAddress,
             functionName: "getUser",
             args: [address],
           });
 
           localStorage.setItem("isRegistered", true);
-          navigate("https://www.google.com");
+          navigate("/");
         } catch (error) {
           console.log(error);
         }
@@ -130,13 +133,13 @@ const Welcome = () => {
       }
       try {
         const res = await writeContract(config, {
-          address: SocialMediaAddress,
-          abi: SocialMediaABI,
+          address:InstaXAddress,
+          abi:InstaXContractABI,
           functionName: "createUser",
           args: [username, bio, profilePictureHash],
           account: address,
         });
-
+        console.log("result from write contract:",res);
         localStorage.setItem("isRegistered", true);
         console.log("we need to reach here plsssssssss");
         navigate("/profile");

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { readContract } from "@wagmi/core";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 
 const Navbar = () => {
@@ -18,8 +19,8 @@ const Navbar = () => {
   const getUser = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getUser",
         args: [address],
       });

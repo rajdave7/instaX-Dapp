@@ -4,6 +4,7 @@ import "./CreatePost.css";
 import { readContract, writeContract } from "@wagmi/core";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 
 const CreatePost = () => {
@@ -21,8 +22,8 @@ const CreatePost = () => {
   const getUser = async () => {
     try {
       const user = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getUser",
         args: [address],
       });
@@ -48,8 +49,8 @@ const CreatePost = () => {
 
     try {
       const res = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getNextPostId",
       });
       console.log("read contract called for getting next post id");
@@ -102,8 +103,8 @@ const CreatePost = () => {
 
       try {
         const tx = await writeContract(config, {
-          abi: SocialMediaABI,
-          address: SocialMediaAddress,
+          abi:InstaXContractABI,
+          address:InstaXAddress,
           functionName: "createPost",
           args: [postContent, mediaHash, fileType],
           account: address,

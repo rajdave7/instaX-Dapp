@@ -4,7 +4,7 @@ require("dotenv").config();
 module.exports = {
   solidity: "0.8.24",
   paths: {
-    artifacts: "./src",
+    artifacts: "./artifacts",
   },
   networks: {
     zkEVM: {

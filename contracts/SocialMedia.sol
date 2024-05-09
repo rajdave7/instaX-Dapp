@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-contract InstaX {
+contract SocialMedia {
     struct User {
         address user;
         string username;
@@ -25,31 +25,28 @@ contract InstaX {
         uint timestamp;
         uint likes;
         uint comments;
-        // uint impressions;
-        // uint reach;
-        // uint engagement;
     }
 
     struct Comment {
+        uint postId;
+        uint commentId;
         address user;
         string content;
         uint timestamp;
+        uint likes;
     }
 
     mapping(address => User) public users;
     mapping(uint256 => Post) public posts;
     mapping(uint256 => mapping(address => bool)) public postLikes;
     mapping(uint256 => mapping(uint256 => Comment)) public postComments;
+    mapping(uint256 => mapping(uint256 => mapping(address => bool))) public commentLikes;
     mapping(address => mapping(address => bool)) public followers;
     mapping(address => address[]) public followersArray;
 
     address[] public usersArray;
 
     uint public postCount;
-
-    constructor() {
-        postCount = 0;
-    }
 
     event UserCreated(
         string username,
@@ -60,6 +57,7 @@ contract InstaX {
     event PostCreated(string content, string mediaHash, uint timestamp);
     event PostLikedUnliked(address user, uint timestamp);
     event CommentCreated(address user, string content, uint timestamp);
+    event CommentLikedUnliked(address user, uint commentId, uint timestamp);
     event Followed(address follower, address followee, uint timestamp);
     event Unfollowed(address follower, address followee, uint timestamp);
 
@@ -93,7 +91,7 @@ contract InstaX {
             _bio,
             _profilePictureHash,
             block.timestamp,
-            new uint[](0),
+            new uint[](0) ,
             0,
             0
         );
@@ -175,41 +173,48 @@ contract InstaX {
         emit PostLikedUnliked(msg.sender, block.timestamp);
     }
 
-    function getPostAnalytics(
-        address _user
-    )
-        public
-        view
-        returns (uint totalPosts, uint totalLikes, uint totalComments)
-    {
-        totalPosts = 0;
-        totalLikes = 0;
-        totalComments = 0;
-
-        for (uint i = 0; i < users[_user].posts.length; i++) {
-            uint postId = users[_user].posts[i];
-            totalPosts++;
-            totalLikes += posts[postId].likes;
-            totalComments += posts[postId].comments;
-        }
-
-        return (totalPosts, totalLikes, totalComments);
-    }
-
     function commentOnPost(
+    uint _postId,
+    string memory _content
+) public userExists {
+    require(_postId < postCount, "Post does not exist");
+    require(bytes(_content).length > 0, "Comment content is required");
+
+    // Get the next available comment ID
+    uint commentId = posts[_postId].comments;
+
+    // Add the comment to the postComments mapping
+    postComments[_postId][commentId] = Comment({
+        postId : _postId,
+        commentId: commentId,
+        user: msg.sender,
+        content: _content,
+        timestamp: block.timestamp,
+        likes: 0
+    });
+
+    // Increment the comment count for the post
+    posts[_postId].comments++;
+
+    // Emit the CommentCreated event
+    emit CommentCreated(msg.sender, _content, block.timestamp);
+}
+    function likeUnlikeComment(
         uint _postId,
-        string memory _content
+        uint _commentId
     ) public userExists {
         require(_postId < postCount, "Post does not exist");
-        require(bytes(_content).length > 0, "Comment content is required");
+        require(_commentId < posts[_postId].comments, "Comment does not exist");
 
-        postComments[_postId][posts[_postId].comments] = Comment(
-            msg.sender,
-            _content,
-            block.timestamp
-        );
-        posts[_postId].comments++;
-        emit CommentCreated(msg.sender, _content, block.timestamp);
+        if (commentLikes[_postId][_commentId][msg.sender]) {
+            commentLikes[_postId][_commentId][msg.sender] = false;
+            postComments[_postId][_commentId].likes--;
+        } else {
+            commentLikes[_postId][_commentId][msg.sender] = true;
+            postComments[_postId][_commentId].likes++;
+        }
+
+        emit CommentLikedUnliked(msg.sender, _commentId, block.timestamp);
     }
 
     function getPost(uint _postId) public view returns (Post memory) {
@@ -249,16 +254,27 @@ contract InstaX {
     }
 
     function unfollowUser(address _user) public userExists {
-        require(_user != msg.sender, "Cannot unfollow yourself");
-        require(followers[_user][msg.sender], "Not following user");
+    require(_user != msg.sender, "Cannot unfollow yourself");
+    require(followers[_user][msg.sender], "Not following user");
 
-        followers[_user][msg.sender] = false;
+    followers[_user][msg.sender] = false;
+    users[_user].followers--;
+    users[msg.sender].following--;
 
-        users[_user].followers--;
-        users[msg.sender].following--;
-
-        emit Unfollowed(msg.sender, _user, block.timestamp);
+    // Remove the unfollowed user from the followersArray
+    address[] storage followersOfUser = followersArray[_user];
+    for (uint i = 0; i < followersOfUser.length; i++) {
+        if (followersOfUser[i] == msg.sender) {
+            // Move the last element to the position to be removed
+            followersOfUser[i] = followersOfUser[followersOfUser.length - 1];
+            // Remove the last element
+            followersOfUser.pop();
+            break;
+        }
     }
+
+    emit Unfollowed(msg.sender, _user, block.timestamp);
+}
 
     function getFollowers(address _user) public view returns (User[] memory) {
         User[] memory _followers = new User[](followersArray[_user].length);
@@ -280,6 +296,27 @@ contract InstaX {
 
     function getFollowersCount(address _user) public view returns (uint) {
         return followersArray[_user].length;
+    }
+
+    function getPostAnalytics(
+        address _user
+    )
+        public
+        view
+        returns (uint totalPosts, uint totalLikes, uint totalComments)
+    {
+        totalPosts = 0;
+        totalLikes = 0;
+        totalComments = 0;
+
+        for (uint i = 0; i < users[_user].posts.length; i++) {
+            uint postId = users[_user].posts[i];
+            totalPosts++;
+            totalLikes += posts[postId].likes;
+            totalComments += posts[postId].comments;
+        }
+
+        return (totalPosts, totalLikes, totalComments);
     }
 
     function getFollowing(address _user) public view returns (User[] memory) {

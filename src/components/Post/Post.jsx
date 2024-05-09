@@ -6,6 +6,7 @@ import Comment from "../Comment/Comment";
 import { readContract, writeContract } from "@wagmi/core";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import getTimeSince from "../../Utils/getTime";
 
@@ -23,8 +24,8 @@ const Post = (props) => {
 
     try {
       const res = await writeContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "commentOnPost",
         args: [
           parseInt(post.id),
@@ -43,8 +44,8 @@ const Post = (props) => {
   const getComments = async (postId) => {
     try {
       const res = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getPostComments",
         args: [postId],
       });
@@ -60,8 +61,8 @@ const Post = (props) => {
     for (let i = 0; i < comments.length; i++) {
       try {
         const user = await readContract(config, {
-          abi: SocialMediaABI,
-          address: SocialMediaAddress,
+          abi:InstaXContractABI,
+          address:InstaXAddress,
           functionName: "getUser",
           args: [comments[i].user],
         });
@@ -76,8 +77,8 @@ const Post = (props) => {
   const toggleLike = async () => {
     try {
       const res = await writeContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "likeUnlikePost",
         args: [parseInt(post.id)],
         account: address,

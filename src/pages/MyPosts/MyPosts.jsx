@@ -6,6 +6,7 @@ import { readContract } from "@wagmi/core";
 import ConnectButton from "../../components/ConnectButton";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import Welcome from "../Welcome/Welcome";
 
@@ -26,8 +27,8 @@ const MyPosts = () => {
   const getPosts = async () => {
     try {
       const data = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getUserPosts",
         args: [address],
       });
@@ -42,8 +43,8 @@ const MyPosts = () => {
 
       try {
         const user = await readContract(config, {
-          abi: SocialMediaABI,
-          address: SocialMediaAddress,
+          abi:InstaXContractABI,
+          address:InstaXAddress,
           functionName: "getUser",
           args: [address],
         });

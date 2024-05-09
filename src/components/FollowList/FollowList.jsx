@@ -3,6 +3,7 @@ import "./FollowList.css";
 import { readContract, writeContract } from "@wagmi/core";
 import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
+import { InstaXContractABI,InstaXAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import Navbar from "../../components/Navbar/Navbar";
 import ConnectButton from "../../components/ConnectButton";
@@ -19,8 +20,8 @@ const FollowList = () => {
   const getUsers = async () => {
     try {
       const res = await readContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "getUnfollowedUsers",
         account: address,
       });
@@ -34,8 +35,8 @@ const FollowList = () => {
   const followUser = async (user) => {
     try {
       await writeContract(config, {
-        abi: SocialMediaABI,
-        address: SocialMediaAddress,
+        abi:InstaXContractABI,
+        address:InstaXAddress,
         functionName: "followUser",
         args: [user.user],
         account: address,
