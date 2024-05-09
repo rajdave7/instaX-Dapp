@@ -36,7 +36,10 @@ const MyPosts = () => {
       let sortedPosts;
       if (sortBy === "asc") {
         sortedPosts = data.sort((a, b) => compareBigInt(a.timestamp, b.timestamp));
-      } else {
+      }else if (sortBy === "mostLiked"){
+        sortedPosts = data.sort((a, b) => compareInt(b.likes,a.likes));
+      }
+       else {
         sortedPosts = data.sort((a, b) => compareBigInt(b.timestamp, a.timestamp));
       }
       setPosts(sortedPosts);
@@ -56,6 +59,11 @@ const MyPosts = () => {
     } catch (error) {
       console.log("Error while fetching posts", error);
     }
+  };
+  const compareInt = (a, b) => {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
   };
 
   const compareBigInt = (a, b) => {
@@ -86,6 +94,7 @@ const MyPosts = () => {
                     >
                       <option value="desc">Newest First</option>
                       <option value="asc">Oldest First</option>
+                      <option value="mostLiked">Most Liked</option>
                     </select>
                 </div>
               {posts.map((post, index) => (
