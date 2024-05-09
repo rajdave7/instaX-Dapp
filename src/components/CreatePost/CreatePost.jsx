@@ -139,7 +139,8 @@ return (
             className="post-input"
             id="postContent"
             rows="3"
-            placeholder="What's on your mind?"
+            cols="40"
+            placeholder="Post your thoughts here"
             onChange={handleTextareaChange}
           ></textarea>
           <div className="upload-section">
@@ -149,6 +150,7 @@ return (
               accept="image/*,video/*"
               className="file-upload"
               onChange={(e) => setSelectedFile(e.target.files[0])}
+              style={{ marginBottom: "10px" }}
             />
             <button type="submit" className="submit-btn">
               Post
