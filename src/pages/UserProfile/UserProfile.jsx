@@ -8,8 +8,7 @@ import { config } from "../../../config";
 import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
 import { Link } from "react-router-dom";
-import UserProfileCard from "../../components/UserProfileCard";
-import ConnectButton from "../../components/ConnectButton";
+import UserProfileCard from "../../components/UserProfileCard"; // Import the UserProfileCard component
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -97,10 +96,7 @@ const UserProfile = () => {
         account: address,
       });
 
-      setFollowers((prevFollowers) =>
-      prevFollowers.filter((follower) => follower.user !== user)
-      );
-    getFollowing();
+      getFollowing();
     } catch (error) {
       console.log("Error while unfollowing user", error);
     }
