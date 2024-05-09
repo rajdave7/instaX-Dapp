@@ -70,7 +70,6 @@ const Home = () => {
           </div>
           <div className="col-md-3">
             <ConnectButton />
-            {/* <FollowList /> */}
           </div>
         </div>
       </div>

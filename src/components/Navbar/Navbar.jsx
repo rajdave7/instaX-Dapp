@@ -81,7 +81,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/polls" className="nav-link">
+              <Link to="/search" className="nav-link">
                 <div className="d-flex">
                   <span className="material-symbols-outlined px-2">search</span>
                   Explore

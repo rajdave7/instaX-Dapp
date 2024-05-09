@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import CreatePoll from "../../components/CreatePoll/CreatePoll";
+import FollowList from "../../components/FollowList/FollowList";
 import Welcome from "../Welcome/Welcome";
 import Poll from "../../components/Poll/Poll";
 
@@ -42,7 +42,7 @@ const Polls = () => {
             <Navbar />
           </div>
           <div className="col-md-6">
-            <CreatePoll />
+            <FollowList />
             <div className="mt-4">
               {polls.map((poll) => (
                 <Poll key={poll.id} poll={poll} />

@@ -332,7 +332,7 @@ contract PollContract {
 
     event Voted(address user, uint pollId, uint option, uint timestamp);
 
-    function createPoll(
+    function FollowList(
         string memory _question,
         string[] memory _options
     ) public {

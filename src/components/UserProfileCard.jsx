@@ -38,8 +38,7 @@ const UserProfileCard = ({ user, followers, following, showFollowers, showFollow
             {followers.map((follower, index) => (
               <div
                 key={index}
-                className="follower d-flex justify-content-start align-items-center"
-              >
+                className="follower d-flex justify-content-start align-items-center">
                 <img
                   src={`https://ipfs.io/ipfs/${follower.profilePictureHash}`}
                   style={{
