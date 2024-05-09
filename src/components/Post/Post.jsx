@@ -116,7 +116,6 @@ const Post = (props) => {
             </p>
           </div>
           <hr />
-          <p className="card-text post-text">{post && post.content}</p>
           <div className="media-container">
             {post && post.mediaType === "video" ? (
               <video
@@ -136,6 +135,7 @@ const Post = (props) => {
               />
             )}
           </div>
+          <p className="card-text post-text">{post && post.content}</p>
           {/* likes and comments */}
           <div className="d-flex mt-2">
           <button

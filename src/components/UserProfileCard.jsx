@@ -69,8 +69,8 @@ const UserProfileCard = ({ user, followers, following, showFollowers, showFollow
                   <img
                     src={`https://ipfs.io/ipfs/${followedUser.profilePictureHash}`}
                     style={{
-                      width: "2px",
-                      height: "20px",
+                      width: "50px",
+                      height: "50px",
                       marginRight: "10px",
                     }}
                     alt="Following"
@@ -78,7 +78,7 @@ const UserProfileCard = ({ user, followers, following, showFollowers, showFollow
                   <span>{followedUser.username}</span>
                 </div>
                 <button
-                  className="mx-5"
+                  className="mx-2 btn btn-danger"
                   onClick={() => handleUnfollow(followedUser.user)}
                 >
                   Unfollow
