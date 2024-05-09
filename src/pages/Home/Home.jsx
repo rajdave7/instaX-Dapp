@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
 import Post from "../../components/Post/Post";
-import FollowList from "../../components/FollowList/FollowList";
+//import FollowList from "../../components/FollowList/FollowList";
 import Welcome from "../Welcome/Welcome";
 import ConnectButton from "../../components/ConnectButton";
 
@@ -70,7 +70,7 @@ const Home = () => {
           </div>
           <div className="col-md-3">
             <ConnectButton />
-            <FollowList />
+            {/* <FollowList /> */}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../../components/Post/Post";
 import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
-import FollowingList from "../../components/FollowList/FollowList";
+//import FollowingList from "../../components/FollowList/FollowList";
 import { readContract } from "@wagmi/core";
 import ConnectButton from "../../components/ConnectButton";
 import { config } from "../../../config";
@@ -66,7 +66,7 @@ const MyPosts = () => {
           </div>
           <div className="col-md-3">
             <ConnectButton />
-            <FollowingList />
+            {/* <FollowingList /> */}
           </div>
         </div>
       </div>

@@ -88,19 +88,6 @@ const Poll = (props) => {
           <p className="card-text">
             {poll && getTimeSince(parseInt(poll.timestamp))}
           </p>
-          {/* <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id="exampleRadios1"
-              value="option1"
-            />
-            <label className="form-check-label" for="exampleRadios1">
-              Option 1
-            </label>
-          </div> */}
-
           {poll &&
             poll.options.map((option, index) => (
               <div>

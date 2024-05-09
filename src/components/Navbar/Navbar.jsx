@@ -83,8 +83,8 @@ const Navbar = () => {
             <li className="nav-item">
               <Link to="/polls" className="nav-link">
                 <div className="d-flex">
-                  <span className="material-symbols-outlined px-2">ballot</span>
-                  Polls
+                  <span className="material-symbols-outlined px-2">search</span>
+                  Explore
                 </div>
               </Link>
             </li>

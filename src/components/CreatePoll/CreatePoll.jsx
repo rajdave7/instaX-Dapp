@@ -1,109 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./CreatePoll.css";
+import { Link } from "react-router-dom";
 
 import { readContract, writeContract } from "@wagmi/core";
 import { config } from "../../../config";
+import { SocialMediaABI, SocialMediaAddress } from "../../Context/constants";
 import { useSocialMedia } from "../../Context/SocialMediaContext";
-import { PollContractABI, PollContractAddress } from "../../Context/constants";
 
-import "./CreatePoll.css";
-
-const CreatePoll = () => {
+const FollowList = () => {
   const { address } = useSocialMedia();
+  const [users, setUsers] = useState([]);
 
-  const [question, setQuestion] = useState("");
-  const [options, setOptions] = useState(["", ""]);
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-  const handleOptionChange = (index, value) => {
-    const updatedOptions = [...options];
-    updatedOptions[index] = value;
-    setOptions(updatedOptions);
-  };
-
-  const handleAddOption = () => {
-    if (options.length >= 2) {
-      setOptions([...options, ""]);
-    }
-  };
-
-  const handleDeleteOption = (index) => {
-    if (options.length > 2) {
-      const updatedOptions = options.filter((_, i) => i !== index);
-      setOptions(updatedOptions);
-    }
-  };
-
-  const handleCreatePoll = (e) => {
-    e.preventDefault();
-
+  const getUsers = async () => {
     try {
-      const res = writeContract(config, {
-        abi: PollContractABI,
-        address: PollContractAddress,
-        functionName: "createPoll",
-        args: [question, options],
+      const res = await readContract(config, {
+        abi: SocialMediaABI,
+        address: SocialMediaAddress,
+        functionName: "getUnfollowedUsers",
         account: address,
       });
 
-      console.log("Poll created successfully", res);
+      setUsers(res);
     } catch (error) {
-      console.log("Error while creating poll", error);
+      console.log("Error while fetching users", error);
+    }
+  };
+
+  const followUser = async (user) => {
+    try {
+      await writeContract(config, {
+        abi: SocialMediaABI,
+        address: SocialMediaAddress,
+        functionName: "followUser",
+        args: [user.user],
+        account: address,
+      });
+
+      getUsers();
+    } catch (error) {
+      console.log("Error while following user", error);
     }
   };
 
   return (
-    <div className="CreatePoll">
-      <h1 className="mb-4">Create Poll</h1>
-      <form onSubmit={handleCreatePoll} style={{ width: "100%" }}>
-        <div className="form-group mb-4">
-          <label htmlFor="question">Question</label>
-          <input
-            type="text"
-            className="form-control"
-            id="question"
-            placeholder="Enter your question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-          />
-        </div>
-        {options.map((option, index) => (
-          <div key={index} className="form-group mb-4">
-            <label htmlFor={`option${index}`}>Option {index + 1}</label>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                id={`option${index}`}
-                placeholder={`Enter option ${index + 1}`}
-                value={option}
-                onChange={(e) => handleOptionChange(index, e.target.value)}
-              />
-              {options.length > 2 && (
-                <div className="input-group-append">
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={() => handleDeleteOption(index)}
-                  >
-                    Delete
-                  </button>
+    <div className="FollowList">
+      <div className="card">
+        <div className="card-body">
+          <h2 className="card-title fs-5 py-2">Find Friends</h2>
+          {users &&
+            users.map((user, index) => (
+              <div key={index} className="user-container">
+                <div className="user-info">
+                  <img
+                    src={`https://ipfs.io/ipfs/${user.profilePictureHash}`}
+                    className="avatar"
+                    alt="User"
+                  />
+                  <h2 className="username">{user.username}</h2>
                 </div>
-              )}
-            </div>
-          </div>
-        ))}
-        <button
-          type="button"
-          className="btn btn-primary mb-3"
-          onClick={handleAddOption}
-        >
-          Add Option
-        </button>
-        <button type="submit" className="btn btn-primary mb-3 mx-3">
-          Create Poll
-        </button>
-      </form>
+                <button
+                  className="btn btn-primary follow-btn"
+                  onClick={() => followUser(user)}
+                >
+                  Follow
+                </button>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default CreatePoll;
+export default FollowList;
