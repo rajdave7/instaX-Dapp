@@ -18,7 +18,7 @@ const UserProfile = () => {
   const [following, setFollowing] = useState([]);
   const [showFollowers, setShowFollowers] = useState(true);
   const [showFollowing, setShowFollowing] = useState(false);
-  const [analytics, setAnalytics] = useState([]);
+  const [analyticsData, setAnalytics] = useState([]);
 
   const { address } = useSocialMedia();
 
@@ -143,9 +143,9 @@ const UserProfile = () => {
                     <div className="card-body">
                       <h5 className="card-title">User Analytics</h5>
                       <ul className="list-group list-group-flush">
-                        <li className="list-group-item">Total Posts: {analytics.totalPosts}</li>
-                        <li className="list-group-item">Total Likes: {analytics.totalLikes}</li>
-                        <li className="list-group-item">Total Comments: {analytics.totalComments}</li>
+                        <li className="list-group-item">Total Posts: {parseInt(analyticsData.totalPosts)}</li>
+                        <li className="list-group-item">Total Likes: {parseInt(analyticsData.totalLikes)}</li>
+                        <li className="list-group-item">Total Comments: {parseInt(analyticsData.totalComments)}</li>
                       </ul>
                     </div>
                   </div>
