@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-contract SocialMedia {
+contract InstaX {
     struct User {
         address user;
         string username;
@@ -40,7 +40,8 @@ contract SocialMedia {
     mapping(uint256 => Post) public posts;
     mapping(uint256 => mapping(address => bool)) public postLikes;
     mapping(uint256 => mapping(uint256 => Comment)) public postComments;
-    mapping(uint256 => mapping(uint256 => mapping(address => bool))) public commentLikes;
+    mapping(uint256 => mapping(uint256 => mapping(address => bool)))
+        public commentLikes;
     mapping(address => mapping(address => bool)) public followers;
     mapping(address => address[]) public followersArray;
 
@@ -91,7 +92,7 @@ contract SocialMedia {
             _bio,
             _profilePictureHash,
             block.timestamp,
-            new uint[](0) ,
+            new uint[](0),
             0,
             0
         );
@@ -174,31 +175,32 @@ contract SocialMedia {
     }
 
     function commentOnPost(
-    uint _postId,
-    string memory _content
-) public userExists {
-    require(_postId < postCount, "Post does not exist");
-    require(bytes(_content).length > 0, "Comment content is required");
+        uint _postId,
+        string memory _content
+    ) public userExists {
+        require(_postId < postCount, "Post does not exist");
+        require(bytes(_content).length > 0, "Comment content is required");
 
-    // Get the next available comment ID
-    uint commentId = posts[_postId].comments;
+        // Get the next available comment ID
+        uint commentId = posts[_postId].comments;
 
-    // Add the comment to the postComments mapping
-    postComments[_postId][commentId] = Comment({
-        postId : _postId,
-        commentId: commentId,
-        user: msg.sender,
-        content: _content,
-        timestamp: block.timestamp,
-        likes: 0
-    });
+        // Add the comment to the postComments mapping
+        postComments[_postId][commentId] = Comment({
+            postId: _postId,
+            commentId: commentId,
+            user: msg.sender,
+            content: _content,
+            timestamp: block.timestamp,
+            likes: 0
+        });
 
-    // Increment the comment count for the post
-    posts[_postId].comments++;
+        // Increment the comment count for the post
+        posts[_postId].comments++;
 
-    // Emit the CommentCreated event
-    emit CommentCreated(msg.sender, _content, block.timestamp);
-}
+        // Emit the CommentCreated event
+        emit CommentCreated(msg.sender, _content, block.timestamp);
+    }
+
     function likeUnlikeComment(
         uint _postId,
         uint _commentId
@@ -254,27 +256,29 @@ contract SocialMedia {
     }
 
     function unfollowUser(address _user) public userExists {
-    require(_user != msg.sender, "Cannot unfollow yourself");
-    require(followers[_user][msg.sender], "Not following user");
+        require(_user != msg.sender, "Cannot unfollow yourself");
+        require(followers[_user][msg.sender], "Not following user");
 
-    followers[_user][msg.sender] = false;
-    users[_user].followers--;
-    users[msg.sender].following--;
+        followers[_user][msg.sender] = false;
+        users[_user].followers--;
+        users[msg.sender].following--;
 
-    // Remove the unfollowed user from the followersArray
-    address[] storage followersOfUser = followersArray[_user];
-    for (uint i = 0; i < followersOfUser.length; i++) {
-        if (followersOfUser[i] == msg.sender) {
-            // Move the last element to the position to be removed
-            followersOfUser[i] = followersOfUser[followersOfUser.length - 1];
-            // Remove the last element
-            followersOfUser.pop();
-            break;
+        // Remove the unfollowed user from the followersArray
+        address[] storage followersOfUser = followersArray[_user];
+        for (uint i = 0; i < followersOfUser.length; i++) {
+            if (followersOfUser[i] == msg.sender) {
+                // Move the last element to the position to be removed
+                followersOfUser[i] = followersOfUser[
+                    followersOfUser.length - 1
+                ];
+                // Remove the last element
+                followersOfUser.pop();
+                break;
+            }
         }
-    }
 
-    emit Unfollowed(msg.sender, _user, block.timestamp);
-}
+        emit Unfollowed(msg.sender, _user, block.timestamp);
+    }
 
     function getFollowers(address _user) public view returns (User[] memory) {
         User[] memory _followers = new User[](followersArray[_user].length);
