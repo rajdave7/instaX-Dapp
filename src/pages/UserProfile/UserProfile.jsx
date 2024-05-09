@@ -18,7 +18,7 @@ const UserProfile = () => {
   const [following, setFollowing] = useState([]);
   const [showFollowers, setShowFollowers] = useState(true);
   const [showFollowing, setShowFollowing] = useState(false);
-  const [analyticsData, setAnalytics] = useState([]);
+  const [analytics, setAnalytics] = useState([]);
 
   const { address } = useSocialMedia();
 
