@@ -16,6 +16,7 @@ const Home = () => {
   const { address } = useSocialMedia();
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [sortBy, setSortBy] = useState("desc"); // Default sorting by descending order
 
   if (!localStorage.getItem("isRegistered")) {
     return <Welcome />;
@@ -27,7 +28,7 @@ const Home = () => {
     } else {
       getPosts();
     }
-  }, [localStorage.getItem("isRegistered")]);
+  }, [localStorage.getItem("isRegistered"), sortBy]);
 
   const getPosts = async () => {
     try {
@@ -37,22 +38,41 @@ const Home = () => {
         functionName: "getFollowingUsersPosts",
         account: address,
       });
-
-      setPosts(res);
-
-      for (let i = 0; i < res.length; i++) {
+  
+      let sortedPosts;
+      if (sortBy === "asc") {
+        sortedPosts = res.sort((a, b) => compareBigInt(a.timestamp, b.timestamp));
+      } else {
+        sortedPosts = res.sort((a, b) => compareBigInt(b.timestamp, a.timestamp));
+      }
+      setPosts(sortedPosts);
+  
+      for (let i = 0; i < sortedPosts.length; i++) {
         const user = await readContract(config, {
           abi: SocialMediaABI,
           address: SocialMediaAddress,
           functionName: "getUser",
-          args: [res[i].user],
+          args: [sortedPosts[i].user],
         });
-
+  
         setUsers((prev) => [...prev, user]);
       }
     } catch (error) {
       console.log("Error while fetching posts", error);
     }
+  };
+  
+  const compareBigInt = (a, b) => {
+    const bigIntA = BigInt(a);
+    const bigIntB = BigInt(b);
+    if (bigIntA < bigIntB) return -1;
+    if (bigIntA > bigIntB) return 1;
+    return 0;
+  };
+  
+
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
   };
 
   return (
@@ -64,6 +84,13 @@ const Home = () => {
           </div>
           <div className="col-md-6">
             <CreatePost />
+            <div>
+              <label htmlFor="sort">Sort by:</label>
+              <select id="sort" value={sortBy} onChange={handleSortChange}>
+                <option value="desc">Newest First</option>
+                <option value="asc">Oldest First</option>
+              </select>
+            </div>
             {users && posts && posts.map((post, index) => (
               <Post key={index} post={post} user={users[index]} />
             ))}

@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-contract SocialMedia {
+contract InstaX {
     struct User {
         address user;
         string username;
@@ -25,6 +25,9 @@ contract SocialMedia {
         uint timestamp;
         uint likes;
         uint comments;
+        // uint impressions;
+        // uint reach;
+        // uint engagement;
     }
 
     struct Comment {
@@ -73,7 +76,6 @@ contract SocialMedia {
         string memory _bio,
         string memory _profilePictureHash
     ) public {
-        // console.log(msg.sender);
         require(bytes(_username).length > 0, "Username is required");
         require(bytes(_bio).length > 0, "Bio is required");
         require(
@@ -154,7 +156,7 @@ contract SocialMedia {
 
         emit PostCreated(_content, _mediaHash, block.timestamp);
     }
-    
+
     function getNextPostId() public view returns (uint) {
         return postCount;
     }
@@ -171,6 +173,27 @@ contract SocialMedia {
         }
 
         emit PostLikedUnliked(msg.sender, block.timestamp);
+    }
+
+    function getPostAnalytics(
+        address _user
+    )
+        public
+        view
+        returns (uint totalPosts, uint totalLikes, uint totalComments)
+    {
+        totalPosts = 0;
+        totalLikes = 0;
+        totalComments = 0;
+
+        for (uint i = 0; i < users[_user].posts.length; i++) {
+            uint postId = users[_user].posts[i];
+            totalPosts++;
+            totalLikes += posts[postId].likes;
+            totalComments += posts[postId].comments;
+        }
+
+        return (totalPosts, totalLikes, totalComments);
     }
 
     function commentOnPost(
@@ -296,81 +319,5 @@ contract SocialMedia {
         }
 
         return followingPosts;
-    }
-}
-
-contract PollContract {
-    SocialMedia socialMedia;
-
-    constructor(address _socialMedia) {
-        socialMedia = SocialMedia(_socialMedia);
-    }
-
-    struct Poll {
-        uint id;
-        address user;
-        string question;
-        string[] options;
-        uint totalVotes;
-        uint timestamp;
-    }
-
-    struct Vote {
-        address user;
-        uint option;
-    }
-
-    Poll[] public polls;
-    mapping(uint => Vote[]) public pollVotes;
-
-    event PollCreated(
-        address user,
-        string question,
-        string[] options,
-        uint timestamp
-    );
-
-    event Voted(address user, uint pollId, uint option, uint timestamp);
-
-    function createPoll(
-        string memory _question,
-        string[] memory _options
-    ) public {
-        require(bytes(_question).length > 0, "Question is required");
-        require(_options.length > 1, "At least two options are required");
-
-        polls.push(
-            Poll(
-                polls.length,
-                msg.sender,
-                _question,
-                _options,
-                0,
-                block.timestamp
-            )
-        );
-
-        emit PollCreated(msg.sender, _question, _options, block.timestamp);
-    }
-
-    function vote(uint _pollId, uint _option) public {
-        require(_pollId < polls.length, "Poll does not exist");
-        require(
-            _option < polls[_pollId].options.length,
-            "Option does not exist"
-        );
-
-        pollVotes[_pollId].push(Vote(msg.sender, _option));
-        polls[_pollId].totalVotes++;
-
-        emit Voted(msg.sender, _pollId, _option, block.timestamp);
-    }
-
-    function getPolls() public view returns (Poll[] memory) {
-        return polls;
-    }
-
-    function getVotes(uint _pollId) public view returns (Vote[] memory) {
-        return pollVotes[_pollId];
     }
 }
