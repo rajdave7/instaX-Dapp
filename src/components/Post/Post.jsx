@@ -14,6 +14,7 @@ const Post = (props) => {
   const [comments, setComments] = useState([]);
   const [commentUsers, setCommentUsers] = useState([]);
   const [showComments, setShowComments] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const { address } = useSocialMedia();
 
@@ -81,6 +82,7 @@ const Post = (props) => {
         args: [parseInt(post.id)],
         account: address,
       });
+      setIsLiked(!isLiked);
     } catch (error) {
       console.log("Error while toggling like", error);
     }
@@ -136,11 +138,11 @@ const Post = (props) => {
           </div>
           {/* likes and comments */}
           <div className="d-flex mt-2">
-            <button
-              className="d-flex like-comment align-items-center btn btn-link"
-              onClick={toggleLike}
-            >
-              <span className="material-symbols-outlined">thumb_up</span>
+          <button
+            className={`d-flex like-comment align-items-center btn btn-link ${isLiked ? 'liked' : ''}`}
+            onClick={toggleLike}
+          >
+              <span className="material-symbols-outlined">favorite</span>
               <span className="px-1 like-comment-text">
                 {post && parseInt(post.likes)} Likes
               </span>
@@ -175,7 +177,7 @@ const Post = (props) => {
                   className="form-control text-box"
                   id="commentContent"
                   rows="1"
-                  placeholder="Add a comment..."
+                  placeholder="Add your comment here..."
                 ></textarea>
                 <button className="send-comment btn btn-link">
                   <span className="material-symbols-outlined px-2">send</span>

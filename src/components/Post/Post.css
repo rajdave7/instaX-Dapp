@@ -24,7 +24,17 @@
   
   .like-comment-text {
     font-size: 0.9rem;
+    margin-left: 0.5rem;
   }
+  
+  .material-symbols-outlined {
+    font-size: 1.7rem;
+    /* color: var(--primary-color); */
+  }  
+
+  .liked {
+    color: red;
+  }  
   
   .like-comment:hover {
     color: var(--primary-color);
@@ -32,23 +42,42 @@
   
   .comment-box {
     width: 100%;
-    background-color: var(--background-color);
-    padding: 0.5rem;
+    padding: 0.2rem;
     border-radius: 0.3rem;
+    background-color: #fff;
   }
+  
+  .text-box {
+    background-color: #fff;
+    flex-grow: 1;
+    border: 0;
+    height: 3rem;
+  }
+  
+  .send-comment {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-color); /* Add the color property to maintain the text color */
+  }
+  
+  .send-comment:hover {
+    color: var(--primary-color);
+  }
+  
   
   #commentContent {
     border: 0;
     background-color: var(--background-color);
   }
   
-  .send-comment {
+  /* .send-comment {
     color: var(--text-color);
   }
   
   .send-comment:hover {
     color: var(--primary-color);
-  }
+  } */
   
   .comment-section {
     margin-top: 20px;
