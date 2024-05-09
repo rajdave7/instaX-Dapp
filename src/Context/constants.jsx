@@ -1,5 +1,4 @@
 import socialMedia from "../../artifacts/contracts/SocialMedia.sol/SocialMedia.json";
-import pollContract from "../../artifacts/contracts/SocialMedia.sol/PollContract.json";
 import instax from "../../artifacts/contracts/SocialMedia.sol/InstaX.json";
 
 export const SocialMediaAddress = "0xeB05c634F13678EcCf24097142A1A2Af785Eea73";
