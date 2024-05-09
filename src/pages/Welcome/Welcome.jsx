@@ -168,7 +168,7 @@ const Welcome = () => {
                 marginBottom: "1rem",
               }}
               />
-          <h3>Register</h3>
+          <h3 style={{ color: "#fff"}}>Register</h3>
           <input
             type="text"
             placeholder="Enter your desired username"
@@ -185,6 +185,7 @@ const Welcome = () => {
             type="file"
             accept="image/*"
             onChange={changeHandler}
+            style={{ color: "#fff" }}
           />
           <button onClick={handleSubmission}>
             Sign Up
