@@ -54,13 +54,10 @@ const Comment = (props) => {
         </div>
         <p className="comment-text">{comment && comment.content}</p>
         <div className="comment-actions">
-          <button
-            className={`btn btn-link`}
-            onClick={likeComment}
-          >
-            Like
+        <button className="d-flex like-comment align-items-center mx-2 btn btn-link" onClick={likeComment}>
+            <span className="material-symbols-outlined">thumb_up</span>
+            <span className="px-1 like-comment-text">{comment && parseInt(comment.likes)} Likes</span>
           </button>
-          <span className="comment-likes">{comment && parseInt(comment.likes)} Likes</span>
         </div>
       </div>
     </div>
