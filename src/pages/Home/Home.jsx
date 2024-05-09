@@ -42,7 +42,9 @@ const Home = () => {
       let sortedPosts;
       if (sortBy === "asc") {
         sortedPosts = res.sort((a, b) => compareBigInt(a.timestamp, b.timestamp));
-      } else {
+      } else if (sortBy === "mostLiked"){
+        sortedPosts = data.sort((a, b) => compareInt(b.likes,a.likes));
+      }else {
         sortedPosts = res.sort((a, b) => compareBigInt(b.timestamp, a.timestamp));
       }
       setPosts(sortedPosts);
@@ -61,7 +63,11 @@ const Home = () => {
       console.log("Error while fetching posts", error);
     }
   };
-  
+  const compareInt = (a, b) => {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  };
   const compareBigInt = (a, b) => {
     const bigIntA = BigInt(a);
     const bigIntB = BigInt(b);
