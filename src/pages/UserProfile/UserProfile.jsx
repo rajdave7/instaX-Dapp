@@ -18,6 +18,7 @@ const UserProfile = () => {
   const [following, setFollowing] = useState([]);
   const [showFollowers, setShowFollowers] = useState(true);
   const [showFollowing, setShowFollowing] = useState(false);
+  const [analytics, setAnalytics] = useState([]);
 
   const { address } = useSocialMedia();
 
@@ -25,7 +26,7 @@ const UserProfile = () => {
     getUser();
     getFollowers();
     getFollowing();
-    // getAnalytics();
+    getAnalytics();
   }, []);
 
   if (!localStorage.getItem("isRegistered")) {
@@ -106,21 +107,21 @@ const UserProfile = () => {
       console.log("Error while unfollowing user", error);
     }
   };
-//   const getAnalytics = async () => {
-//     try {
-//         const analyticsData = await readContract(config, {
-//             abi:InstaXContractABI,
-//             address:InstaXAddress,
-//             functionName: "getPostAnalytics",
-//             args: [user], 
-//         });
+  const getAnalytics = async () => {
+    try {
+        const analyticsData = await readContract(config, {
+            abi:InstaXContractABI,
+            address:InstaXAddress,
+            functionName: "getPostAnalytics",
+            args: [user], 
+        });
 
-//         setAnalytics(analyticsData);
-//         console.log(analyticsData);
-//     } catch (error) {
-//         console.log("Error while fetching analytics", error);
-//     }
-// };
+        setAnalytics(analyticsData);
+        console.log(analyticsData);
+    } catch (error) {
+        console.log("Error while fetching analytics", error);
+    }
+};
   return (
     <>
         <div className="UserProfile">
@@ -138,6 +139,16 @@ const UserProfile = () => {
                             handleUnfollow={handleUnfollow}
                       />
                     </div>
+                    <div className="card mt-4">
+                    <div className="card-body">
+                      <h5 className="card-title">User Analytics</h5>
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item">Total Posts: {analytics.totalPosts}</li>
+                        <li className="list-group-item">Total Likes: {analytics.totalLikes}</li>
+                        <li className="list-group-item">Total Comments: {analytics.totalComments}</li>
+                      </ul>
+                    </div>
+                  </div>
                     <div className="col-md-3">
                       <ConnectButton />
                         <Navbar />

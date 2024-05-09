@@ -43,7 +43,7 @@ const Home = () => {
       if (sortBy === "asc") {
         sortedPosts = res.sort((a, b) => compareBigInt(a.timestamp, b.timestamp));
       } else if (sortBy === "mostLiked"){
-        sortedPosts = data.sort((a, b) => compareInt(b.likes,a.likes));
+        sortedPosts = res.sort((a, b) => compareInt(b.likes,a.likes));
       }else {
         sortedPosts = res.sort((a, b) => compareBigInt(b.timestamp, a.timestamp));
       }
@@ -97,8 +97,9 @@ const Home = () => {
                 onChange={handleSortChange}
                 className="custom-select card-dark" style={{ marginLeft: '10px' , padding: '5px 10px', borderRadius: '5px' }}
               >
-                <option value="desc">Newest First</option>
-                <option value="asc">Oldest First</option>
+                 <option value="desc">Newest First</option>
+                 <option value="asc">Oldest First</option>
+                 <option value="mostLiked">Most Liked</option>
               </select>
             </div>
 
