@@ -21,6 +21,7 @@
     width: 100%; /* Ensure full width */
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
-    object-fit: cover; /* Ensure full cover of container */
+    object-fit: contain; /* Ensure full cover of container */
   }
+
   
